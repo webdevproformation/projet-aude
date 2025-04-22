@@ -1,0 +1,22 @@
+{
+    "name": "jorgenevens/php-cache-dashboard",
+    "description": "PHP APC, APCu, OPcache and realpath dashboard",
+    "type": "project",
+    "require": {
+        "ext-apcu": "^5.1",
+        "ext-Zend-OPcache": "^7.1",
+        "php": "^7.1",
+        "ext-memcached": "^3.0",
+        "ext-redis": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jorgen Evens",
+            "email": "jorgen@evens.eu"
+        }
+    ],
+    "scripts": {
+        "dev": "php -S 127.0.0.1:8181"
+    }
+}

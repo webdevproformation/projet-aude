@@ -1,0 +1,84 @@
+version: '3.1'
+services:
+
+  server:
+    image: 'nginx:stable-alpine'
+    container_name: my_nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./01-code/app:/var/www/html
+      - ./01-code/cache:/var/www/cache
+      - ./01-infra-code/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./01-infra-code/cache.conf:/etc/nginx/conf.d/cache.conf
+
+  php:
+    build: ./01-infra-code
+    container_name: my_php_symfonycli_composer
+    volumes:
+      - ./01-code/app:/var/www/html:delegated
+      - ./01-code/cache:/var/www/cache
+      # - ./01-infra-code/php-custom.ini:/usr/local/etc/php/conf.d/mongo.ini
+
+    # ports:
+    #  - 3000:9000
+
+  database:
+    image: mysql
+    container_name: my_mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - ./02-mysql/mysql:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: toto
+      # https://hub.docker.com/_/mysql/
+      MYSQL_DATABASE: toto
+      MYSQL_USER: toto
+      MYSQL_PASSWORD: toto
+    
+
+  mongodb:
+    image: mongo
+    container_name: my_mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./03-mongo/mongodb:/data/db
+      - ./03-mongo/script.js:/docker-entrypoint-initdb.d/script.js
+    working_dir: /app
+    environment:
+      # MONGO_INITDB_ROOT_USERNAME: root
+      # MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: dcat
+    restart: always
+
+  adminer:
+    image: adminer
+    container_name: my_adminer
+    restart: on-failure
+    ports:
+        - '8081:8080'
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    container_name: my_mongo_express
+    ports:
+      - 8082:8081
+    environment:
+      # ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      # ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      # ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      # ME_CONFIG_BASICAUTH: ""
+      # connexion par htaccess
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_BASICAUTH_USERNAME: user
+      ME_CONFIG_BASICAUTH_PASSWORD: user
+
+  mailcatcher:
+    image: dockage/mailcatcher:0.7.1
+    ports:
+        - 1080:1080
+        - 1025:1025

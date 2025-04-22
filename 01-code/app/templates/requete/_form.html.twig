@@ -1,0 +1,37 @@
+{{ form_start(form) }}
+     <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+
+    {{ form_row(form.title) }}
+
+    {{ form_row(form.description) }}
+
+    <div class="row">
+        {#<div class="col-2">
+            {{ form_label(form.created_at , "Créer le :") }}
+            {{ form_widget(form.created_at , { attr : { class : "w-170px" } })}}
+            {{ form_help(form.created_at) }}
+            {{ form_errors(form.created_at) }}
+        </div>#}
+        <div class="col-2">
+            {{ form_label(form.deadline , "Date maximum :") }}
+            {{ form_widget(form.deadline , { attr : { class : "w-170px" } })}}
+            {{ form_help(form.deadline) }}
+            {{ form_errors(form.deadline) }}
+        </div>
+        <div class="col-2">
+            {{ form_row(form.price) }}
+        </div>
+        <div class="col-3">
+            {{ form_label(form.type , "Type de requête :") }}
+            {{ form_errors(form.type) }}
+            {{ form_widget(form.type , { attr : { class : "w-170px" } })}}
+            {{ form_help(form.type) }}
+        </div>
+        <div class="col-3">
+            {{ form_row(form.genres) }}
+        </div>
+    </div>
+
+    {# {{ form_widget(form) }} #}
+   
+{{ form_end(form) }}

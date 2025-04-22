@@ -1,0 +1,4 @@
+theme: jekyll-theme-cayman
+title: PHP cache dashboard for APC, APCu and OPcache
+description: A PHP cache dashboard for APC, APCu and Opcache
+google_analytics: UA-25703748-6
